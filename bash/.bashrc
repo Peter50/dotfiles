@@ -1,7 +1,7 @@
 PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${HOME}/.bash.d
 export PATH
 
-EDITOR=nano
+EDITOR=vim
 export EDITOR
 
 # Load colors
