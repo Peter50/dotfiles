@@ -12,9 +12,8 @@
    ~/.gitconfig :
    ~/.gitignore :
    ~/.screenrc :
-   # ~/.dotfiles: '' 
-   # ~/.vim: vim
-   # ~/.vimrc: vimrc
+    ~/.vim: vim
+    ~/.vimrc: vimrc
 
 - create:
     - ~/.vim/undo-history
