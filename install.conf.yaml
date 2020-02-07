@@ -1,0 +1,23 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+   ~/.ansible.cfg :
+   ~/.bash_colors : 
+   ~/.bash_functions :
+   ~/.bashrc :
+   ~/.gitconfig :
+   ~/.gitignore :
+   ~/.screenrc :
+   # ~/.dotfiles: '' 
+   # ~/.vim: vim
+   # ~/.vimrc: vimrc
+
+- create:
+    - ~/.vim/undo-history
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
