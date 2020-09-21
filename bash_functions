@@ -13,18 +13,6 @@ function genpassword () {
 
 }
 
-function ipmi_tunnel () {
-    ## Create a SSH tunnel to access the IPMI of a private network-only configured host and use its iKVM features
-    [ $# -ne 4 ] && { echo -e "Usage:\tipmi_tunnel LOCAL_IP DESTINATION_IP RELAY_IP PATH_TO_SSH_KEY"; return 1; }
-
-    LOCAL=$1
-    DESTINATION=$2
-    RELAY=$3
-    ARGS=" -i $4 "
-    
-    sudo ssh $ARGS -L $LOCAL:623:$DESTINATION:623  -L $LOCAL:443:$DESTINATION:443  -L $LOCAL:80:$DESTINATION:80  -L $LOCAL:5900:$DESTINATION:5900 aquaray@$RELAY
-}
-
 function pyless () {
     ## Sexier less
     pygmentize -f terminal "$1" | less -R
@@ -56,33 +44,6 @@ function ikvm () {
 
     "${IKVM_PATH}"/jre/bin/java -Djava.library.path="${IKVM_PATH}" -jar "${IKVM_PATH}"/iKVM.jar "${IP}" "${USER}" "${PASS}" null 5900 623 0 0
 
-}
-
-function sign_ssh_key ()
-{
-    ## sign my ssh keys against Aqua Ray's arsign infrastructure (cf https://aquawiki.aquaray.com/mediawiki/index.php/AAR:SSH)
-    [ $# -ne 3 ] && { echo -e "Usage:\tsign_ssh_key USERNAME PATH_TO_PRIV_KEY KEY_NAME"; return 1; }
-
-    ssh-reagent || { echo -e "Please start a SSH Agent before signing your key"; return 2; }
-    
-    user=$1
-    key=$2
-    keyname=$3
-
-    export LC_KEY_TO_SIGN=$3
-
-    echo "Deleting everything in the running agent"
-    ssh-add -D
-    echo "Deleting previous certificate"
-    rm ${key}-cert.pub
-    echo "Adding key to the agent"
-    ssh-add ${key}
-    echo -n "Signing key (enter your password): "
-    #	ssh -o SendEnv=LC_KEY_TO_SIGN -t ssh1 "ssh ${user}@arsign1" | grep 'ssh-rsa-cert-v01' | grep ${keyname} > ${key}-cert.pub
-    ssh -o SendEnv=LC_KEY_TO_SIGN -t ssh1 "ssh ${user}@arsign1" | grep 'ssh-rsa-cert-v01' > ${key}-cert.pub
-    echo ""
-    echo "Adding certificate to the agent"
-    ssh-add ${key}
 }
 
 function atoi

@@ -90,10 +90,6 @@ fi
 ssh-reagent
 export BROWSER="firefox"
 
-# Git-subrepo
-source /home/loic/Software/git-subrepo/.rc
-source /home/loic/Software/git-subrepo/share/git-completion.bash
-source /home/loic/Software/git-subrepo/share/completion.bash
 
 # Git Prompt
 export GIT_PS1_SHOWDIRTYSTATE=1
